@@ -7,6 +7,7 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import StratifiedKFold
 from sklearn.model_selection import GridSearchCV
 import pickle
+import gzip
 import json, os
 np.set_printoptions(legacy='1.25')
 from sklearn.metrics import (
@@ -94,7 +95,7 @@ class Lab01:
         current_accuracy = balanced_accuracy_score(y, estimator.predict(X))
 
         if current_accuracy > saved_accuracy:
-            with open(self.files_path + 'models/model.pkl', 'wb') as file:
+            with gzip.open(self.files_path + 'models/model.pkl.gz', 'wb') as file:
                 pickle.dump(estimator, file)
         else:
             estimator = best_estimator
@@ -102,7 +103,7 @@ class Lab01:
 
 
     def load_model(self):
-        with open(self.files_path + "models/model.pkl", "rb") as file:
+        with gzip.open(self.files_path + "models/model.pkl.gz", "rb") as file:
             estimator = pickle.load(file)
         return estimator
     
